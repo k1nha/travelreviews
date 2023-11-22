@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
-	"github.com/k1nha/travelreviews/router"
+	"github.com/k1nha/travelreviews/internal/http/router"
 )
 
 func main() {
