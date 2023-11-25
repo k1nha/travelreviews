@@ -8,16 +8,16 @@ import (
 
 type Review struct {
 	ID          uuid.UUID `json:"id"`
-	Place       string    `json:"place"`
+	PlaceId     uuid.UUID `json:"place_id"`
 	Stars       int       `json:"stars"`
 	Description string    `json:"description"`
 	CreatedAt   time.Time `json:"created_at"`
 }
 
-func NewReview(id uuid.UUID, place string, stars int, description string) *Review {
+func NewReview(id uuid.UUID, placeId uuid.UUID, stars int, description string) *Review {
 	return &Review{
 		ID:          id,
-		Place:       place,
+		PlaceId:     placeId,
 		Stars:       stars,
 		Description: description,
 		CreatedAt:   time.Now(),
