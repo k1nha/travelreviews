@@ -6,10 +6,13 @@ import (
 )
 
 type ReviewInput struct {
-	PlaceId string
+	PlaceId     string
+	Description string
+	Stars       int
 }
 
 type ReviewOutput struct {
+	Review *entity.Review
 }
 
 type CreateReview struct {
@@ -17,19 +20,24 @@ type CreateReview struct {
 }
 
 func (c *CreateReview) Execute(i ReviewInput) (*ReviewOutput, error) {
-	
+	placeId, err := uuid.Parse(i.PlaceId)
+	if err != nil {
+		return nil, err
+	}
+
 	review := entity.NewReview(
-		ID: uuid.New(),
-		PlaceId: uuid.Parse(i.PlaceId),
-		
+		uuid.New(),
+		placeId,
+		i.Stars, i.Description,
 	)
 
-	err := c.ReviewRepository.Save(review)
+	err = c.ReviewRepository.Save(review)
 
 	if err != nil {
 		return nil, err
-
 	}
 
-	return &ReviewOutput{}, err
+	return &ReviewOutput{
+		Review: review,
+	}, err
 }

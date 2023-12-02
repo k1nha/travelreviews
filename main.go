@@ -8,15 +8,19 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/k1nha/travelreviews/internal/http/router"
+	"github.com/k1nha/travelreviews/internal/infra/database"
 )
 
 func main() {
-	h := router.InitializeRouter()
 	godotenv.Load(".env")
+
+	h := router.InitializeRouter()
+
+	database.InitDatabase()
 
 	p := os.Getenv("PORT")
 	if p == "" {
-		log.Fatal("PORT is not found in the environment variable")
+		log.Fatal("PORT not found in the environment variable")
 	}
 
 	srv := http.Server{

@@ -9,3 +9,5 @@ services:
       - POSTGRESQL_USERNAME=docker
       - POSTGRESQL_PASSWORD=docker
       - POSTGRESQL_DATABASE=travel
+    volumes:
+      - ./config/init.sql:/docker-entrypoint-initdb.d/init.sql

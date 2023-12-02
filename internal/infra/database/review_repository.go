@@ -11,8 +11,8 @@ type ReviewRepository struct {
 	Db *sql.DB
 }
 
-func (r *ReviewRepository) Save(review entity.Review) error {
-	_, err := r.Db.Exec("INSERT INTO ")
+func (r *ReviewRepository) Save(review *entity.Review) error {
+	_, err := r.Db.Exec("INSERT INTO reviews (id, place_id, stars, description, created_at) VALUES (?,?,?,?,?)", review.ID, review.PlaceId, review.Stars, review.Description, review.CreatedAt)
 
 	if err != nil {
 		return errors.New("errors")
@@ -20,3 +20,5 @@ func (r *ReviewRepository) Save(review entity.Review) error {
 
 	return nil
 }
+
+func (r *ReviewRepository) GetAll() {}
