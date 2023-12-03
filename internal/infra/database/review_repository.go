@@ -20,5 +20,3 @@ func (r *ReviewRepository) Save(review *entity.Review) error {
 
 	return nil
 }
-
-func (r *ReviewRepository) GetAll() {}

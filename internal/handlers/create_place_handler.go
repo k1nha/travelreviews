@@ -8,43 +8,38 @@ import (
 	"github.com/k1nha/travelreviews/internal/usecases"
 )
 
-func CreateReviewHandler() http.HandlerFunc {
+func CreatePlaceHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
-		var rev ReviewRequest
+		var pla PlaceRequest
+
 		db := database.GetDB()
 
-		err := json.NewDecoder(r.Body).Decode(&rev)
+		err := json.NewDecoder(r.Body).Decode(&pla)
 
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		err = rev.Validate()
+		err = pla.Validate()
 
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
-
-		// TODO: Find if place exists
-		usecase := usecases.CreateReview{
-			ReviewRepository: &database.ReviewRepository{
+		usecase := usecases.CreatePlace{
+			PlaceRepository: &database.PlaceRepository{
 				Db: db,
 			},
 		}
 
-		input := usecases.ReviewInput{
-			PlaceId:     rev.PlaceId,
-			Description: rev.Description,
-			Stars:       rev.Stars,
+		input := usecases.PlaceInput{
+			Name:   pla.Name,
+			Street: pla.Street,
+			City:   pla.City,
 		}
 
 		output, err := usecase.Execute(input)
@@ -57,6 +52,7 @@ func CreateReviewHandler() http.HandlerFunc {
 		db.Close()
 
 		w.WriteHeader(http.StatusCreated)
+
 		json.NewEncoder(w).Encode(output)
 	}
 }

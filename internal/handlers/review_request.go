@@ -16,11 +16,11 @@ func (c *ReviewRequest) Validate() error {
 	}
 
 	if c.Description == "" {
-		return fmt.Errorf("Description cannot be empty")
+		return fmt.Errorf("description cannot be empty")
 	}
 
 	if c.Stars < 0 && c.Stars > 5 {
-		return fmt.Errorf("Stars error validation")
+		return fmt.Errorf("stars error validation")
 	}
 
 	return nil

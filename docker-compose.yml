@@ -2,12 +2,11 @@ version: '3.8'
 
 services:
   travelreviews:
-    image: postgres
+    image: bitnami/postgresql
     ports:
       - 5432:5432
     environment:
       - POSTGRESQL_USERNAME=docker
       - POSTGRESQL_PASSWORD=docker
       - POSTGRESQL_DATABASE=travel
-    volumes:
-      - ./config/init.sql:/docker-entrypoint-initdb.d/init.sql
+    
