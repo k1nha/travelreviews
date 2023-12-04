@@ -1,6 +1,8 @@
 package usecases
 
 import (
+	"errors"
+
 	"github.com/google/uuid"
 	"github.com/k1nha/travelreviews/internal/entity"
 )
@@ -16,13 +18,24 @@ type ReviewOutput struct {
 }
 
 type CreateReview struct {
-	ReviewRepository entity.ReviewRepository
+	ReviewRepository entity.ReviewInterface
+	PlaceRepository  entity.PlaceInterface
 }
 
 func (c *CreateReview) Execute(i ReviewInput) (*ReviewOutput, error) {
 	placeId, err := uuid.Parse(i.PlaceId)
 	if err != nil {
 		return nil, err
+	}
+
+	p, err := c.PlaceRepository.GetById(i.PlaceId)
+
+	if err != nil {
+		return nil, err
+	}
+
+	if p == nil {
+		return nil, errors.New("place not found")
 	}
 
 	review := entity.NewReview(

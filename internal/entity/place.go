@@ -23,13 +23,3 @@ func NewPlace(id uuid.UUID, name string, street string, city string) *Place {
 		CreatedAt: time.Now(),
 	}
 }
-
-func NewPlaceMapper(id uuid.UUID, name string, street, city string, createdAt time.Time) *Place {
-	return &Place{
-		ID:        id,
-		Name:      name,
-		Street:    street,
-		City:      city,
-		CreatedAt: createdAt,
-	}
-}

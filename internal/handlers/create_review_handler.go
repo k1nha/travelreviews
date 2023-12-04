@@ -39,6 +39,9 @@ func CreateReviewHandler() http.HandlerFunc {
 			ReviewRepository: &database.ReviewRepository{
 				Db: db,
 			},
+			PlaceRepository: &database.PlaceRepository{
+				Db: db,
+			},
 		}
 
 		input := usecases.ReviewInput{
