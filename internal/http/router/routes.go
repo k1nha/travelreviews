@@ -12,11 +12,15 @@ func initRoutes(c *chi.Mux) {
 
 	c.Route("/travel", func(r chi.Router) {
 		r.Use(middlewares.AuthMiddleware)
-		r.Post("/travel", handlers.CreateReviewHandler())
+		r.Post("/", handlers.CreateReviewHandler())
 	})
 
 	c.Route("/place", func(r chi.Router) {
 		r.Use(middlewares.AuthMiddleware)
-		r.Post("/place", handlers.CreatePlaceHandler())
+		r.Post("/", handlers.CreatePlaceHandler())
+	})
+
+	c.Route("/auth", func(r chi.Router) {
+		r.Post("/token", handlers.CreateTokenHandler())
 	})
 }

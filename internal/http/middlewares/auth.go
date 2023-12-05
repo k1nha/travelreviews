@@ -1,11 +1,10 @@
 package middlewares
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 )
-
-var ja *jwtauth.JWTAuth
 
 func AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -25,16 +24,13 @@ func AuthMiddleware(next http.Handler) http.Handler {
 		}
 
 		jwtToken := a[1]
+		fmt.Println(jwtToken)
 
-		tokenDecoded, err := ja.Decode(jwtToken)
-
-		if err != nil {
-			w.WriteHeader(http.StatusUnauthorized)
-			w.Write([]byte(`{"message": "Invalid Bearer token"}`))
-			return
-		}
-
-		tokenDecoded.
+		// if err != nil {
+		// 	w.WriteHeader(http.StatusUnauthorized)
+		// 	w.Write([]byte(`{"message": "Invalid Bearer token"}`))
+		// 	return
+		// }
 
 		next.ServeHTTP(w, r)
 	})

@@ -24,7 +24,7 @@ type CreateReview struct {
 
 func (c *CreateReview) Execute(i ReviewInput) (*ReviewOutput, error) {
 	placeId, err := uuid.Parse(i.PlaceId)
-	if err != nil {
+		if err != nil {
 		return nil, err
 	}
 

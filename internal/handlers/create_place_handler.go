@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/k1nha/travelreviews/internal/http/response"
 	"github.com/k1nha/travelreviews/internal/infra/database"
 	"github.com/k1nha/travelreviews/internal/usecases"
 )
@@ -19,14 +20,14 @@ func CreatePlaceHandler() http.HandlerFunc {
 		err := json.NewDecoder(r.Body).Decode(&pla)
 
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			response.ResponseError(w, http.StatusBadRequest, err.Error())
 			return
 		}
 
 		err = pla.Validate()
 
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			response.ResponseError(w, http.StatusBadRequest, err.Error())
 			return
 		}
 
@@ -45,7 +46,7 @@ func CreatePlaceHandler() http.HandlerFunc {
 		output, err := usecase.Execute(input)
 
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			response.ResponseError(w, http.StatusBadRequest, err.Error())
 			return
 		}
 
