@@ -1,4 +1,4 @@
-package handlers
+package reviewhandler
 
 import (
 	"fmt"

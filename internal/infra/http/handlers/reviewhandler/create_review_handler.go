@@ -1,12 +1,12 @@
-package handlers
+package reviewhandler
 
 import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/k1nha/travelreviews/internal/http/response"
+	"github.com/k1nha/travelreviews/internal/domain/usecases/reviewusecase"
 	"github.com/k1nha/travelreviews/internal/infra/database"
-	"github.com/k1nha/travelreviews/internal/usecases"
+	"github.com/k1nha/travelreviews/internal/infra/http/response"
 )
 
 func CreateReviewHandler() http.HandlerFunc {
@@ -35,8 +35,7 @@ func CreateReviewHandler() http.HandlerFunc {
 			return
 		}
 
-		// TODO: Find if place exists
-		usecase := usecases.CreateReview{
+		usecase := reviewusecase.CreateReview{
 			ReviewRepository: &database.ReviewRepository{
 				Db: db,
 			},
@@ -45,7 +44,7 @@ func CreateReviewHandler() http.HandlerFunc {
 			},
 		}
 
-		input := usecases.ReviewInput{
+		input := reviewusecase.ReviewInput{
 			PlaceId:     rev.PlaceId,
 			Description: rev.Description,
 			Stars:       rev.Stars,

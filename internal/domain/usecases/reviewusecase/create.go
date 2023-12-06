@@ -1,10 +1,10 @@
-package usecases
+package reviewusecase
 
 import (
 	"errors"
 
 	"github.com/google/uuid"
-	"github.com/k1nha/travelreviews/internal/entity"
+	"github.com/k1nha/travelreviews/internal/domain"
 )
 
 type ReviewInput struct {
@@ -14,17 +14,17 @@ type ReviewInput struct {
 }
 
 type ReviewOutput struct {
-	Review *entity.Review
+	Review *domain.Review
 }
 
 type CreateReview struct {
-	ReviewRepository entity.ReviewInterface
-	PlaceRepository  entity.PlaceInterface
+	ReviewRepository domain.ReviewRepository
+	PlaceRepository  domain.PlaceRepository
 }
 
 func (c *CreateReview) Execute(i ReviewInput) (*ReviewOutput, error) {
 	placeId, err := uuid.Parse(i.PlaceId)
-		if err != nil {
+	if err != nil {
 		return nil, err
 	}
 
@@ -38,7 +38,7 @@ func (c *CreateReview) Execute(i ReviewInput) (*ReviewOutput, error) {
 		return nil, errors.New("place not found")
 	}
 
-	review := entity.NewReview(
+	review := domain.NewReview(
 		uuid.New(),
 		placeId,
 		i.Stars, i.Description,

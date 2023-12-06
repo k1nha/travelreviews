@@ -1,19 +1,19 @@
-package handlers
+package placehandler
 
 import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/k1nha/travelreviews/internal/http/response"
+	"github.com/k1nha/travelreviews/internal/domain/usecases/placeusecase"
 	"github.com/k1nha/travelreviews/internal/infra/database"
-	"github.com/k1nha/travelreviews/internal/usecases"
+	"github.com/k1nha/travelreviews/internal/infra/http/response"
 )
 
 func CreatePlaceHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 
-		var pla PlaceRequest
+		var pla CreatePlaceRequest
 
 		db := database.GetDB()
 
@@ -31,13 +31,13 @@ func CreatePlaceHandler() http.HandlerFunc {
 			return
 		}
 
-		usecase := usecases.CreatePlace{
+		usecase := placeusecase.CreatePlace{
 			PlaceRepository: &database.PlaceRepository{
 				Db: db,
 			},
 		}
 
-		input := usecases.PlaceInput{
+		input := placeusecase.PlaceInput{
 			Name:   pla.Name,
 			Street: pla.Street,
 			City:   pla.City,

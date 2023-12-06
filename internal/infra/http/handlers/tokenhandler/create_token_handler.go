@@ -1,10 +1,12 @@
-package handlers
+package tokenhandler
 
 import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/k1nha/travelreviews/internal/http/response"
+	"github.com/k1nha/travelreviews/internal/domain/usecases/authusecase"
+	"github.com/k1nha/travelreviews/internal/infra/database"
+	"github.com/k1nha/travelreviews/internal/infra/http/response"
 	"github.com/k1nha/travelreviews/util"
 )
 
@@ -23,11 +25,21 @@ func CreateTokenHandler() http.HandlerFunc {
 			return
 		}
 
-		// TODO: Check if Email/Username exists
-		tkn, err := util.CreateToken(util.InputToken{
+		db := database.GetDB()
+
+		usecase := authusecase.GenerateToken{
+			UserRepository: &database.UserRepository{
+				Db: db,
+			},
+			JwtAdapter: &util.JwtAdapter{},
+		}
+
+		input := authusecase.TokenInput{
 			Email:    tokenReq.Email,
 			Username: tokenReq.Username,
-		})
+		}
+
+		tkn, err := usecase.Execute(input)
 
 		if err != nil {
 			response.ResponseError(w, http.StatusBadRequest, err.Error())
@@ -36,12 +48,6 @@ func CreateTokenHandler() http.HandlerFunc {
 
 		w.WriteHeader(http.StatusCreated)
 
-		res := struct {
-			Token string `json:"token"`
-		}{
-			Token: tkn,
-		}
-
-		json.NewEncoder(w).Encode(res)
+		json.NewEncoder(w).Encode(tkn)
 	}
 }

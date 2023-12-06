@@ -7,15 +7,13 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-type InputToken struct {
-	Email    string
-	Username string
+type JwtAdapter struct {
 }
 
-func CreateToken(i InputToken) (string, error) {
+func (j *JwtAdapter) CreateToken(email string, username string) (string, error) {
 	mapClaims := jwt.MapClaims{
-		"username": i.Username,
-		"email":    i.Email,
+		"username": username,
+		"email":    email,
 		"exp":      time.Now().Add(time.Hour * 24 * 7).Unix(),
 	}
 

@@ -1,8 +1,8 @@
-package usecases
+package placeusecase
 
 import (
 	"github.com/google/uuid"
-	"github.com/k1nha/travelreviews/internal/entity"
+	"github.com/k1nha/travelreviews/internal/domain"
 )
 
 type PlaceInput struct {
@@ -12,15 +12,15 @@ type PlaceInput struct {
 }
 
 type PlaceOutput struct {
-	Place *entity.Place
+	Place *domain.Place
 }
 
 type CreatePlace struct {
-	PlaceRepository entity.PlaceInterface
+	PlaceRepository domain.PlaceRepository
 }
 
 func (c *CreatePlace) Execute(i PlaceInput) (*PlaceOutput, error) {
-	p := entity.NewPlace(
+	p := domain.NewPlace(
 		uuid.New(),
 		i.Name,
 		i.Street,

@@ -1,4 +1,4 @@
-package entity
+package domain
 
 import (
 	"time"
@@ -12,6 +12,11 @@ type Review struct {
 	Stars       int       `json:"stars"`
 	Description string    `json:"description"`
 	CreatedAt   time.Time `json:"created_at"`
+}
+
+type ReviewRepository interface {
+	Save(review *Review) error
+	//GetAll() []Review
 }
 
 func NewReview(id uuid.UUID, placeId uuid.UUID, stars int, description string) *Review {
