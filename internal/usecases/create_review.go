@@ -39,9 +39,9 @@ func (c *CreateReview) Execute(i ReviewInput) (*ReviewOutput, error) {
 	}
 
 	review := entity.NewReview(
-		uuid.New(),
 		placeId,
-		i.Stars, i.Description,
+		i.Stars,
+		i.Description,
 	)
 
 	err = c.ReviewRepository.Save(review)

@@ -1,7 +1,6 @@
 package usecases
 
 import (
-	"github.com/google/uuid"
 	"github.com/k1nha/travelreviews/internal/entity"
 )
 
@@ -21,7 +20,6 @@ type CreatePlace struct {
 
 func (c *CreatePlace) Execute(i PlaceInput) (*PlaceOutput, error) {
 	p := entity.NewPlace(
-		uuid.New(),
 		i.Name,
 		i.Street,
 		i.City,

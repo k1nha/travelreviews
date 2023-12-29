@@ -3,20 +3,20 @@ package entity
 import (
 	"time"
 
-	"github.com/google/uuid"
+	"github.com/k1nha/travelreviews/pkg/entity"
 )
 
 type Review struct {
-	ID          uuid.UUID `json:"id"`
-	PlaceId     uuid.UUID `json:"place_id"`
+	ID          entity.ID `json:"id"`
+	PlaceId     entity.ID `json:"place_id"`
 	Stars       int       `json:"stars"`
 	Description string    `json:"description"`
 	CreatedAt   time.Time `json:"created_at"`
 }
 
-func NewReview(id uuid.UUID, placeId uuid.UUID, stars int, description string) *Review {
+func NewReview(placeId entity.ID, stars int, description string) *Review {
 	return &Review{
-		ID:          id,
+		ID:          entity.NewID(),
 		PlaceId:     placeId,
 		Stars:       stars,
 		Description: description,

@@ -3,15 +3,12 @@ package entity
 import (
 	"testing"
 
-	"github.com/google/uuid"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestPlace(t *testing.T) {
-	id := uuid.New()
+	p := NewPlace("example name", "example street", "example city")
 
-	p := NewPlace(id, "example name", "example street", "example city")
+	assert.NotNil(t, p)
 
-	if p.ID != id {
-		t.Errorf("place.Id = %v, want %v", p.ID, id)
-	}
 }

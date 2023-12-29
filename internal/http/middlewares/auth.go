@@ -3,6 +3,8 @@ package middlewares
 import (
 	"net/http"
 	"strings"
+
+	"github.com/go-chi/jwtauth"
 )
 
 var ja *jwtauth.JWTAuth
@@ -34,8 +36,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		tokenDecoded.
-
+		// token
 		next.ServeHTTP(w, r)
 	})
 }

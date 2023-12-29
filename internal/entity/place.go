@@ -3,20 +3,20 @@ package entity
 import (
 	"time"
 
-	"github.com/google/uuid"
+	"github.com/k1nha/travelreviews/pkg/entity"
 )
 
 type Place struct {
-	ID        uuid.UUID
+	ID        entity.ID
 	Name      string
 	Street    string
 	City      string
 	CreatedAt time.Time
 }
 
-func NewPlace(id uuid.UUID, name string, street string, city string) *Place {
+func NewPlace(name, street, city string) *Place {
 	return &Place{
-		ID:        id,
+		ID:        entity.NewID(),
 		Name:      name,
 		Street:    street,
 		City:      city,
