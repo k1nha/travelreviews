@@ -23,3 +23,9 @@ func NewPlace(name, street, city string) *Place {
 		CreatedAt: time.Now(),
 	}
 }
+
+type PlaceRepository interface {
+	Save(place *Place) error
+	GetById(id string) (*Place, error)
+	GetAll() ([]Place, error)
+}

@@ -3,8 +3,8 @@ package authusecase
 import (
 	"fmt"
 
-	"github.com/k1nha/travelreviews/internal/domain"
 	"github.com/k1nha/travelreviews/internal/domain/adapter"
+	"github.com/k1nha/travelreviews/internal/domain/entity"
 )
 
 type TokenInput struct {
@@ -17,7 +17,7 @@ type TokenOutput struct {
 }
 
 type GenerateToken struct {
-	UserRepository domain.UserRepository
+	UserRepository entity.UserRepository
 	JwtAdapter     adapter.JwtAdapter
 }
 

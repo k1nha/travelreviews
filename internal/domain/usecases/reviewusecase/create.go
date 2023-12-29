@@ -4,7 +4,7 @@ import (
 	"errors"
 
 	"github.com/google/uuid"
-	"github.com/k1nha/travelreviews/internal/domain"
+	"github.com/k1nha/travelreviews/internal/domain/entity"
 )
 
 type ReviewInput struct {
@@ -14,12 +14,12 @@ type ReviewInput struct {
 }
 
 type ReviewOutput struct {
-	Review *domain.Review
+	Review *entity.Review
 }
 
 type CreateReview struct {
-	ReviewRepository domain.ReviewRepository
-	PlaceRepository  domain.PlaceRepository
+	ReviewRepository entity.ReviewRepository
+	PlaceRepository  entity.PlaceRepository
 }
 
 func (c *CreateReview) Execute(i ReviewInput) (*ReviewOutput, error) {

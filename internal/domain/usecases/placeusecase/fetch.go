@@ -1,15 +1,13 @@
 package placeusecase
 
-import (
-	"github.com/k1nha/travelreviews/internal/domain"
-)
+import "github.com/k1nha/travelreviews/internal/domain/entity"
 
 type FetchPlacesOutput struct {
-	Places []domain.Place `json:"places"`
+	Places []entity.Place `json:"places"`
 }
 
 type FetchPlaces struct {
-	PlaceRepository domain.PlaceRepository
+	PlaceRepository entity.PlaceRepository
 }
 
 func (f *FetchPlaces) Execute() (*FetchPlacesOutput, error) {

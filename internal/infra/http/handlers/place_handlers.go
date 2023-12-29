@@ -5,8 +5,9 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/k1nha/travelreviews/internal/domain/usecases/placeusecase"
 	"github.com/k1nha/travelreviews/internal/infra/database"
-	"github.com/k1nha/travelreviews/internal/usecases"
+	"github.com/k1nha/travelreviews/internal/infra/http/handlers/placehandler"
 )
 
 type PlaceHandler struct {
@@ -22,7 +23,7 @@ func NewPlaceHandler(placeDB *sql.DB) *PlaceHandler {
 func (h *PlaceHandler) CreatePlace(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	var placeDTO PlaceRequest
+	var placeDTO placehandler.CreatePlaceRequest
 
 	err := json.NewDecoder(r.Body).Decode(&placeDTO)
 	if err != nil {
@@ -37,13 +38,13 @@ func (h *PlaceHandler) CreatePlace(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	usecase := usecases.CreatePlace{
+	usecase := placeusecase.CreatePlace{
 		PlaceRepository: &database.PlaceRepository{
 			Db: h.PlaceDB,
 		},
 	}
 
-	input := usecases.PlaceInput{
+	input := placeusecase.PlaceInput{
 		Name:   placeDTO.Name,
 		Street: placeDTO.Street,
 		City:   placeDTO.City,

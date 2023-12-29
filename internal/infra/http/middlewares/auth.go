@@ -8,6 +8,8 @@ import (
 	"github.com/go-chi/jwtauth"
 )
 
+var ja *jwtauth.JWTAuth
+
 func AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		authHeader := r.Header.Get("Authorization")
@@ -36,7 +38,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		// token
+		fmt.Println(tokenDecoded)
 		next.ServeHTTP(w, r)
 	})
 }

@@ -1,4 +1,4 @@
-package domain
+package entity
 
 import (
 	"time"
@@ -22,4 +22,8 @@ func NewReview(placeId entity.ID, stars int, description string) *Review {
 		Description: description,
 		CreatedAt:   time.Now(),
 	}
+}
+
+type ReviewRepository interface {
+	Save(review *Review) error
 }

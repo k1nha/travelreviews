@@ -4,14 +4,14 @@ import (
 	"database/sql"
 	"errors"
 
-	"github.com/k1nha/travelreviews/internal/domain"
+	"github.com/k1nha/travelreviews/internal/domain/entity"
 )
 
 type PlaceRepository struct {
 	Db *sql.DB
 }
 
-func (p *PlaceRepository) Save(place *domain.Place) error {
+func (p *PlaceRepository) Save(place *entity.Place) error {
 	_, error := p.Db.Exec("INSERT INTO place (id, name, street, city, created_at) VALUES (?, ?, ?, ?, ?)", place.ID, place.Name, place.Street, place.City, place.CreatedAt)
 
 	if error != nil {
@@ -21,10 +21,10 @@ func (p *PlaceRepository) Save(place *domain.Place) error {
 	return nil
 }
 
-func (p *PlaceRepository) GetById(id string) (*domain.Place, error) {
+func (p *PlaceRepository) GetById(id string) (*entity.Place, error) {
 	row := p.Db.QueryRow("SELECT id, name, street, city, created_at FROM place WHERE id =?", id)
 
-	var place domain.Place
+	var place entity.Place
 
 	err := row.Scan(&place.ID, &place.Name, &place.Street, &place.City, &place.CreatedAt)
 
@@ -35,9 +35,9 @@ func (p *PlaceRepository) GetById(id string) (*domain.Place, error) {
 	return &place, nil
 }
 
-func (p *PlaceRepository) GetAll() ([]domain.Place, error) {
+func (p *PlaceRepository) GetAll() ([]entity.Place, error) {
 
-	var places []domain.Place
+	var places []entity.Place
 
 	rows, err := p.Db.Query("SELECT * FROM places")
 
@@ -46,7 +46,7 @@ func (p *PlaceRepository) GetAll() ([]domain.Place, error) {
 	}
 
 	for rows.Next() {
-		var place domain.Place
+		var place entity.Place
 
 		if err := rows.Scan(&place.ID, &place.Name, &place.Street, &place.City, &place.CreatedAt); err != nil {
 			return places, err
