@@ -7,21 +7,19 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-type InputToken struct {
-	email    string
-	username string
+type JwtAdapter struct {
 }
 
-func CreateToken(i InputToken) (string, error) {
+func (j *JwtAdapter) CreateToken(email string, username string) (string, error) {
 	mapClaims := jwt.MapClaims{
-		"username": i.username,
-		"email":    i.email,
+		"username": username,
+		"email":    email,
 		"exp":      time.Now().Add(time.Hour * 24 * 7).Unix(),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, mapClaims)
 
-	tokenString, err := token.SignedString(os.Getenv("secret"))
+	tokenString, err := token.SignedString([]byte(os.Getenv("SECRET")))
 
 	if err != nil {
 		return "", err
@@ -29,3 +27,23 @@ func CreateToken(i InputToken) (string, error) {
 
 	return tokenString, nil
 }
+
+// func ValidateToken(tkn string) error {
+// 	token, err := jwt.Parse(tkn, func(t *jwt.Token) (interface{}, error) {
+// 		_, ok := t.Method.(*jwt.SigningMethodECDSA)
+
+// 		if !ok {
+// 			writer.WriteHeader(http.StatusUnauthorized)
+// 			_, err := writer.Write([]byte("You're Unauthorized!"))
+// 			if err != nil {
+// 				return nil, err
+
+// 			}
+// 		}
+// 	})
+
+// 	if err != nil {
+// 		return err
+// 	}
+
+// }

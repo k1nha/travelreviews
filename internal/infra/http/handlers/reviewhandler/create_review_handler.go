@@ -1,11 +1,12 @@
-package handlers
+package reviewhandler
 
 import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/k1nha/travelreviews/internal/domain/usecases/reviewusecase"
 	"github.com/k1nha/travelreviews/internal/infra/database"
-	"github.com/k1nha/travelreviews/internal/usecases"
+	"github.com/k1nha/travelreviews/internal/infra/http/response"
 )
 
 func CreateReviewHandler() http.HandlerFunc {
@@ -18,24 +19,23 @@ func CreateReviewHandler() http.HandlerFunc {
 		err := json.NewDecoder(r.Body).Decode(&rev)
 
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			response.ResponseError(w, http.StatusBadRequest, err.Error())
 			return
 		}
 
 		err = rev.Validate()
 
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			response.ResponseError(w, http.StatusBadRequest, err.Error())
 			return
 		}
 
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			response.ResponseError(w, http.StatusBadRequest, err.Error())
 			return
 		}
 
-		// TODO: Find if place exists
-		usecase := usecases.CreateReview{
+		usecase := reviewusecase.CreateReview{
 			ReviewRepository: &database.ReviewRepository{
 				Db: db,
 			},
@@ -44,7 +44,7 @@ func CreateReviewHandler() http.HandlerFunc {
 			},
 		}
 
-		input := usecases.ReviewInput{
+		input := reviewusecase.ReviewInput{
 			PlaceId:     rev.PlaceId,
 			Description: rev.Description,
 			Stars:       rev.Stars,
@@ -53,7 +53,7 @@ func CreateReviewHandler() http.HandlerFunc {
 		output, err := usecase.Execute(input)
 
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
+			response.ResponseError(w, http.StatusBadRequest, err.Error())
 			return
 		}
 

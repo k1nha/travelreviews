@@ -1,13 +1,12 @@
 package middlewares
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
 	"github.com/go-chi/jwtauth"
 )
-
-var ja *jwtauth.JWTAuth
 
 func AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -27,6 +26,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 		}
 
 		jwtToken := a[1]
+		fmt.Println(jwtToken)
 
 		tokenDecoded, err := ja.Decode(jwtToken)
 

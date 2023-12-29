@@ -1,14 +1,14 @@
-package handlers
+package placehandler
 
 import "fmt"
 
-type PlaceRequest struct {
+type CreatePlaceRequest struct {
 	Name   string `json:"name"`
 	Street string `json:"street"`
 	City   string `json:"city"`
 }
 
-func (p *PlaceRequest) Validate() error {
+func (p *CreatePlaceRequest) Validate() error {
 	if p.Name == "" {
 		return fmt.Errorf("name cannot be empty")
 	}
