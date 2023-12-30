@@ -5,10 +5,12 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/k1nha/travelreviews/internal/domain/entity"
+	entitypkg "github.com/k1nha/travelreviews/pkg/entity"
 )
 
 type ReviewInput struct {
 	PlaceId     string
+	UserId      string
 	Description string
 	Stars       int
 }
@@ -38,8 +40,15 @@ func (c *CreateReview) Execute(i ReviewInput) (*ReviewOutput, error) {
 		return nil, errors.New("place not found")
 	}
 
+	userId, err := entitypkg.ParseID(i.UserId)
+
+	if err != nil {
+		return nil, err
+	}
+
 	review := entity.NewReview(
 		placeId,
+		userId,
 		i.Stars,
 		i.Description,
 	)

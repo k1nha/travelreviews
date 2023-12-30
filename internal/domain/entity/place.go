@@ -12,6 +12,7 @@ type Place struct {
 	Street    string
 	City      string
 	CreatedAt time.Time
+	UpdateAt  time.Time
 }
 
 func NewPlace(name, street, city string) *Place {
@@ -21,7 +22,12 @@ func NewPlace(name, street, city string) *Place {
 		Street:    street,
 		City:      city,
 		CreatedAt: time.Now(),
+		UpdateAt:  time.Now(),
 	}
+}
+
+func (p *Place) Touch() {
+	p.UpdateAt = time.Now()
 }
 
 type PlaceRepository interface {

@@ -7,58 +7,83 @@ import (
 
 	"github.com/k1nha/travelreviews/internal/domain/usecases/placeusecase"
 	"github.com/k1nha/travelreviews/internal/infra/database"
-	"github.com/k1nha/travelreviews/internal/infra/http/handlers/placehandler"
+	"github.com/k1nha/travelreviews/internal/infra/http/handlers/requests"
+	"github.com/k1nha/travelreviews/internal/infra/http/response"
 )
 
 type PlaceHandler struct {
-	PlaceDB *sql.DB
+	DB *sql.DB
 }
 
-func NewPlaceHandler(placeDB *sql.DB) *PlaceHandler {
+func NewPlaceHandler(db *sql.DB) *PlaceHandler {
 	return &PlaceHandler{
-		PlaceDB: placeDB,
+		DB: db,
 	}
 }
 
-func (h *PlaceHandler) CreatePlace(w http.ResponseWriter, r *http.Request) {
+func (p *PlaceHandler) Create(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	var placeDTO placehandler.CreatePlaceRequest
+	var pla requests.CreatePlaceRequest
 
-	err := json.NewDecoder(r.Body).Decode(&placeDTO)
+	err := json.NewDecoder(r.Body).Decode(&pla)
+
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		response.ResponseError(w, http.StatusBadRequest, err.Error())
 		return
 	}
-	defer r.Body.Close()
 
-	err = placeDTO.Validate()
+	err = pla.Validate()
+
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		response.ResponseError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	usecase := placeusecase.CreatePlace{
 		PlaceRepository: &database.PlaceRepository{
-			Db: h.PlaceDB,
+			Db: p.DB,
 		},
 	}
 
 	input := placeusecase.PlaceInput{
-		Name:   placeDTO.Name,
-		Street: placeDTO.Street,
-		City:   placeDTO.City,
+		Name:   pla.Name,
+		Street: pla.Street,
+		City:   pla.City,
 	}
 
 	output, err := usecase.Execute(input)
 
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		response.ResponseError(w, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	h.PlaceDB.Close()
+	defer p.DB.Close()
 
 	w.WriteHeader(http.StatusCreated)
+
 	json.NewEncoder(w).Encode(output)
+}
+
+func (p *PlaceHandler) Fetch(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	usecase := placeusecase.FetchPlaces{
+		PlaceRepository: &database.PlaceRepository{
+			Db: p.DB,
+		},
+	}
+
+	ouput, err := usecase.Execute()
+
+	if err != nil {
+		response.ResponseError(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	defer p.DB.Close()
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(ouput)
 }
