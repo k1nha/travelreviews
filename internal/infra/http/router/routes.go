@@ -1,7 +1,8 @@
 package router
 
 import (
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/k1nha/travelreviews/internal/infra/database"
 	"github.com/k1nha/travelreviews/internal/infra/http/handlers"
 	"github.com/k1nha/travelreviews/internal/infra/http/middlewares"
@@ -14,6 +15,8 @@ func initRoutes(c *chi.Mux) {
 	placeHandler := handlers.NewPlaceHandler(db)
 	reviewHandler := handlers.NewReviewHandler(db)
 	userHandler := handlers.NewUserHandler(db)
+
+	c.Use(middleware.AllowContentType("application/json"))
 
 	c.HandleFunc("/healthcheck", util.HealthCheck())
 
