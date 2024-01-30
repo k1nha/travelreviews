@@ -7,15 +7,15 @@ import (
 )
 
 func TestNewPlace(t *testing.T) {
-	place := NewPlace("example name", "example street", "example city")
+	place := NewPlace("example name", "restaurant")
 
 	assert.NotNil(t, place)
 	assert.Equal(t, "example name", place.Name)
-	assert.Equal(t, "example street", place.Street)
+	assert.Equal(t, "restaurant", place.Type)
 }
 
 func TestUpdatePlace(t *testing.T) {
-	place := NewPlace("example name", "example street", "example city")
+	place := NewPlace("example name", "restaurant")
 	assert.NotNil(t, place)
 	place.Touch()
 	assert.NotEqual(t, place.UpdateAt, place.CreatedAt)

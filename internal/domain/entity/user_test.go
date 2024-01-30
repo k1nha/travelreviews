@@ -3,6 +3,7 @@ package entity
 import (
 	"testing"
 
+	"github.com/k1nha/travelreviews/pkg/email"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -22,8 +23,8 @@ func TestNewUserWithValidEmail(t *testing.T) {
 
 	assert.NotNil(t, user)
 	assert.Nil(t, err)
-	assert.True(t, user.ValidateEmail("john@doe.com"))
-	assert.False(t, user.ValidateEmail("john@.com"))
+	assert.True(t, email.ValidateEmail("john@doe.com"))
+	assert.False(t, email.ValidateEmail("john@.com"))
 }
 
 func TestNewUserWithHashPassword(t *testing.T) {

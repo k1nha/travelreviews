@@ -7,22 +7,22 @@ import (
 )
 
 type Place struct {
-	ID        entity.ID
-	Name      string
-	Street    string
-	City      string
-	CreatedAt time.Time
-	UpdateAt  time.Time
+	ID           entity.ID `json:"id"`
+	Name         string    `json:"name"`
+	Type         string    `json:"type"`
+	AveragePrice float64   `json:"average_price"`
+	CreatedAt    time.Time `json:"created_at"`
+	UpdateAt     time.Time `json:"update_at"`
 }
 
-func NewPlace(name, street, city string) *Place {
+func NewPlace(name, typeOf string) *Place {
 	return &Place{
-		ID:        entity.NewID(),
-		Name:      name,
-		Street:    street,
-		City:      city,
-		CreatedAt: time.Now(),
-		UpdateAt:  time.Now(),
+		ID:           entity.NewID(),
+		Name:         name,
+		Type:         typeOf,
+		AveragePrice: 0,
+		CreatedAt:    time.Now(),
+		UpdateAt:     time.Now(),
 	}
 }
 

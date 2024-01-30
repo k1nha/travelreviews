@@ -8,22 +8,24 @@ import (
 )
 
 type Review struct {
-	ID          entity.ID `json:"id"`
-	PlaceId     entity.ID `json:"place_id"`
-	UserId      entity.ID `json:"user_id"`
-	Stars       int       `json:"stars"`
-	Description string    `json:"description"`
-	CreatedAt   time.Time `json:"created_at"`
+	ID             entity.ID `json:"id"`
+	PlaceId        entity.ID `json:"place_id"`
+	UserId         entity.ID `json:"user_id"`
+	Stars          float64   `json:"stars"`
+	Description    string    `json:"description"`
+	Recommendation float64   `json:"recommation"`
+	CreatedAt      time.Time `json:"created_at"`
 }
 
-func NewReview(placeId, userId entity.ID, stars int, description string) *Review {
+func NewReview(placeId, userId entity.ID, stars, recommation float64, description string) *Review {
 	return &Review{
-		ID:          entity.NewID(),
-		PlaceId:     placeId,
-		Stars:       stars,
-		UserId:      userId,
-		Description: description,
-		CreatedAt:   time.Now(),
+		ID:             entity.NewID(),
+		PlaceId:        placeId,
+		Stars:          stars,
+		UserId:         userId,
+		Recommendation: recommation,
+		Description:    description,
+		CreatedAt:      time.Now(),
 	}
 }
 
@@ -36,4 +38,6 @@ func (r *Review) Validate() error {
 
 type ReviewRepository interface {
 	Save(review *Review) error
+	GetAllByUser(userId string) ([]Review, error)
+	GetAllByPlaceId(placeId string) ([]Review, error)
 }

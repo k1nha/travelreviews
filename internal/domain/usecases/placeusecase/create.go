@@ -2,34 +2,32 @@ package placeusecase
 
 import "github.com/k1nha/travelreviews/internal/domain/entity"
 
-type PlaceInput struct {
-	Name   string
-	Street string
-	City   string
-}
-
-type PlaceOutput struct {
+type output struct {
 	Place *entity.Place
 }
 
 type CreatePlace struct {
-	PlaceRepository entity.PlaceRepository
+	placeRepository       entity.PlaceRepository
+	commercialInfoRepository entity.CommercialInfoRepository
 }
 
-func (c *CreatePlace) Execute(i PlaceInput) (*PlaceOutput, error) {
-	p := entity.NewPlace(
-		i.Name,
-		i.Street,
-		i.City,
-	)
+func NewCreatePlace(placeRepo entity.PlaceRepository, commercialInfoRepo entity.CommercialInfoRepository) *CreatePlace {
+	return &CreatePlace{
+		placeRepository:       placeRepo,
+		commercialInfoRepository: commercialInfoRepo,
+	}
+}
 
-	err := c.PlaceRepository.Save(p)
+func (c *CreatePlace) Execute(name, typeof string) (*output, error) {
+	p := entity.NewPlace(name, typeof)
+
+	err := c.placeRepository.Save(p)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return &PlaceOutput{
+	return &output{
 		Place: p,
 	}, nil
 }
