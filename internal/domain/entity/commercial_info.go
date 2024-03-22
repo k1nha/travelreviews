@@ -20,7 +20,7 @@ type CommercialInfo struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-func NewCommercialInfo(placeId entity.ID, address, city, state, country string) (*CommercialInfo, error) {
+func NewCommercialInfo(placeId entity.ID, address, city, state, country string) *CommercialInfo {
 	return &CommercialInfo{
 		ID:        entity.NewID(),
 		PlaceID:   placeId,
@@ -30,7 +30,7 @@ func NewCommercialInfo(placeId entity.ID, address, city, state, country string) 
 		Country:   country,
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
-	}, nil
+	}
 }
 
 func (a *CommercialInfo) Touch() {

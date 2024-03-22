@@ -43,13 +43,20 @@ func (p *PlaceHandler) Create(w http.ResponseWriter, r *http.Request) {
 	usecase := placeusecase.NewCreatePlace(
 		&database.PlaceRepository{
 			Db: p.DB,
-		},	
+		},
 		&database.CommercialInfoRepository{
 			Db: p.DB,
 		},
 	)
 
-	output, err := usecase.Execute(pla.Name, pla.Typeof)
+	output, err := usecase.Execute(&placeusecase.Input{
+		Name:    pla.Name,
+		TypeOf:  pla.Typeof,
+		Address: pla.Address,
+		City:    pla.City,
+		State:   pla.State,
+		Country: pla.Country,
+	})
 
 	if err != nil {
 		response.ResponseError(w, http.StatusBadRequest, err.Error())

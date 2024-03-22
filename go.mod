@@ -5,11 +5,10 @@ go 1.21.4
 require (
 	github.com/go-chi/cors v1.2.1
 	github.com/google/uuid v1.4.0
-	github.com/joho/godotenv v1.5.1
 )
 
 require (
-	github.com/go-chi/chi v1.5.5
+	github.com/go-chi/chi/v5 v5.0.11
 	github.com/go-chi/jwtauth v1.2.0
 	github.com/golang-jwt/jwt/v5 v5.2.0
 	github.com/lib/pq v1.10.9
@@ -21,6 +20,7 @@ require (
 require (
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
+	github.com/go-chi/chi v1.5.5 // indirect
 	github.com/goccy/go-json v0.3.5 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/lestrrat-go/backoff/v2 v2.0.7 // indirect
